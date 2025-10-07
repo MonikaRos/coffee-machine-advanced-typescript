@@ -4,6 +4,7 @@ import fetch from "node-fetch";
 import * as notification from "../src/utils/notifications";
 
 jest.mock("node-fetch", () => jest.fn());
+jest.useFakeTimers({ now: new Date("2023-01-01T00:00:00Z").getTime() });
 describe('notifyUser', () => {
     it("calls fetch with correct URL", async() =>{
         const message = "Hello World";
@@ -15,7 +16,7 @@ describe('notifyUser', () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
                 message: message,
-             timestamp: expect.any(String)})
+             timestamp: new Date().toISOString()})
         });
         expect(fetchSpy).toHaveBeenCalledTimes(1);
 
